@@ -24,3 +24,10 @@ services:
 **Clone the project and execute the below command**
 
 ```mvn spring-boot:run```
+
+
+**APIs**
+
+1. http://localhost:9091/api/rates/minmax
+2. http://localhost:9091/api/rates?sort=asc
+3. http://localhost:9091/api/rates?sort=desc
