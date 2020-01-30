@@ -1,10 +1,12 @@
 # CurrencyAPI
 
-mkdir db-docker
-cd db-docker
-touch docker-compose.yml
+```
+- mkdir db-docker
+- cd db-docker
+- touch docker-compose.yml
+```
 
-**Add the following in the docker-compose.yml file we just created:
+**Add the following in the docker-compose.yml file we just created:**
 
 ```JSON
 version: '3'
@@ -19,6 +21,6 @@ services:
     ports:
       - "3306:3306"
 ```
-**Clone the project and execute 
+**Clone the project and execute the below command**
 
 ```mvn spring-boot:run```
