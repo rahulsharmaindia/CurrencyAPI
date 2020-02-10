@@ -25,6 +25,9 @@ public class CurrencyApplication {
         SpringApplication.run(CurrencyApplication.class, args);
     }
 
+    /**
+     * Exceutes when application is ready and then does some preprocessing and loading of data.
+     */
     @EventListener(ApplicationReadyEvent.class)
     public void applicationReady() {
         try {

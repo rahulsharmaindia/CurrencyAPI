@@ -2,10 +2,8 @@ package com.example.currency.service;
 
 import com.example.currency.model.CurrencyData;
 import com.example.currency.repository.CurrencyDataRepo;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,22 +35,32 @@ public class CurrencyDataService {
     @Autowired
     ServletContext context;
 
+    /**
+     * Fetches the data from currency API and saves to the database.
+     * @return
+     * @throws IOException
+     */
     public boolean preapareData() throws IOException {
         logger.info("preparing data...");
         ResponseEntity<CurrencyData> result = restTemplate.getForEntity(service_URL, CurrencyData.class);
         logger.info(result.toString());
-        String home = System.getProperty("user.home");
+        /*String home = System.getProperty("user.home");
         String fileLocation = FilenameUtils.normalize(home + "/Desktop");
         String md5Hex = DigestUtils.md5Hex(mapper.writeValueAsString(result.getBody())).toUpperCase();
-        String file = fileLocation+"/"+md5Hex+".json";
-        logger.info("saving file to -----------"+file);
-        mapper.writeValue(new File(file), result.getBody());
+        String file = fileLocation + "/" + md5Hex + ".json";
+        logger.info("saving file to -----------" + file);
+        mapper.writeValue(new File(file), result.getBody());*/
         if (repo.save(result.getBody()) != null) {
             return true;
         }
         return false;
     }
 
+    /**
+     * fethes exchange rates from database in asc or dsc order depending on the parameter.
+     * @param asc
+     * @return
+     */
     public Set<String> getExchangeRatesDsc(boolean asc) {
         CurrencyData currencyData = repo.findAll().get(0);
         Map<String, Double> exchangeRates = currencyData.getRates();
@@ -61,6 +69,10 @@ public class CurrencyDataService {
         return sortedexchangeRates;
     }
 
+    /**
+     * fetches exchange rates from database and then filters and returns the min and max rates currency.
+     * @return
+     */
     public List<Map.Entry<String, Double>> getMaxMinRates() {
         CurrencyData currencyData = repo.findAll().get(0);
         Map.Entry<String, Double> maxEntry = Collections.max(currencyData.getRates().entrySet(), Comparator.comparing(Map.Entry::getValue));

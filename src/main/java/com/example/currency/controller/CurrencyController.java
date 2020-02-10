@@ -20,11 +20,20 @@ public class CurrencyController {
     @Autowired
     CurrencyDataService service;
 
+    /**
+     * Get the currency with exRates in asc or dsc order on the basis of parameter value "asc" or "dsc".
+     * @param sort
+     * @return
+     */
     @GetMapping("/rates")
     public ResponseEntity<Set<String>> getExchangeRates(@RequestParam String sort) {
         return new ResponseEntity<>(service.getExchangeRatesDsc("asc".equals(sort) ? true : false), HttpStatus.OK);
     }
 
+    /**
+     * Fetches the min and max rates currency
+     * @return
+     */
     @GetMapping("/rates/minmax")
     public ResponseEntity<List<Map.Entry<String, Double>>> getMaxMinRates() {
         return new ResponseEntity<>(service.getMaxMinRates(), HttpStatus.OK);
